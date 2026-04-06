@@ -1,0 +1,218 @@
+
+body {
+    margin: 0;
+    font-family: Arial;
+    background: linear-gradient(135deg,#2a4a7b,#1e3c72);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    color: white;
+}
+
+.container {
+    text-align: center;
+    background: rgba(255,255,255,0.06);
+    padding: 30px;
+    border-radius: 20px;
+    backdrop-filter: blur(12px);
+}
+
+/* заголовок */
+.title {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.clock {
+    animation: spin 6s linear infinite;
+}
+
+@keyframes spin {
+    from {transform: rotate(0);}
+    to {transform: rotate(360deg);}
+}
+
+/* круг */
+.circle {
+    position: relative;
+    width: 220px;
+    height: 220px;
+    margin: 20px auto;
+}
+
+svg { transform: rotate(-90deg); }
+circle { fill: none; stroke-width: 8; }
+
+.bg { stroke: rgba(255,255,255,0.2); }
+.progress { stroke: #00c6ff; stroke-dasharray: 628; stroke-dashoffset: 628; }
+
+#display {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 28px;
+}
+
+/* время */
+.picker {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+}
+
+.col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+}
+
+.label {
+    font-size: 13px;
+    opacity: 0.8;
+}
+
+/* колесо */
+.wheel {
+    width: 70px;
+    height: 50px;
+    overflow-y: scroll;
+    scroll-snap-type: y mandatory;
+    text-align: center;
+
+    border: 2px solid rgba(255,255,255,0.2);
+    border-radius: 12px;
+    background: rgba(255,255,255,0.05);
+
+    transition: 0.3s;
+}
+
+.wheel:hover {
+    border-color: #00c6ff;
+}
+
+.wheel::-webkit-scrollbar {
+    display: none;
+}
+
+.wheel div {
+    height: 40px;
+    line-height: 40px;
+    scroll-snap-align: center;
+    opacity: 0.4;
+    transition: 0.3s;
+}
+
+.wheel div.active {
+    opacity: 1;
+    transform: scale(1.25);
+    font-weight: bold;
+    color: #00c6ff;
+}
+
+/* мелодия */
+.melody-row {
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+
+.melody-label {
+    font-size: 16px;
+    min-width: 80px;
+    text-align: right;
+}
+
+/* кнопка */
+button {
+    margin-top: 20px;
+    padding: 10px 25px;
+    border-radius: 20px;
+    border: none;
+    background: #00c6ff;
+    color: white;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover {
+    transform: scale(1.05);
+}
+
+
+/* 📱 МОБИЛЬНАЯ ВЕРСИЯ */
+@media (max-width: 480px) {
+
+    body {
+        padding: 10px;
+        align-items: flex-start;
+    }
+
+    .container {
+        width: 100%;
+        padding: 20px;
+        border-radius: 0;
+        min-height: 100vh;
+    }
+
+    /* заголовок */
+    .title {
+        font-size: 22px;
+    }
+
+    /* круг */
+    .circle {
+        width: 180px;
+        height: 180px;
+    }
+
+    svg {
+        width: 180px;
+        height: 180px;
+    }
+
+    #display {
+        font-size: 24px;
+    }
+
+    /* время */
+    .picker {
+        gap: 20px;
+    }
+
+    .wheel {
+        width: 65px;
+        height: 50px;
+        font-size: 18px;
+    }
+
+    .wheel div {
+        font-size: 20px;
+    }
+
+    /* мелодия */
+    .melody-row {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .melody-label {
+        text-align: center;
+    }
+
+    .melody {
+        width: 150px;
+    }
+
+    /* кнопка */
+    button {
+        width: 100%;
+        padding: 14px;
+        font-size: 18px;
+        border-radius: 25px;
+    }
+}

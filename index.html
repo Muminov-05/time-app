@@ -1,0 +1,57 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>Таймер</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="style.css">
+<link rel="manifest" href="manifest.json">
+</head>
+<body>
+
+<div class="container">
+
+    <h1 class="title">
+        <span class="clock">🕐</span> Таймер
+    </h1>
+
+    <div class="circle">
+        <svg width="220" height="220">
+            <circle cx="110" cy="110" r="100" class="bg"></circle>
+            <circle cx="110" cy="110" r="100" class="progress" id="progressCircle"></circle>
+        </svg>
+        <div id="display">00:00:00</div>
+    </div>
+
+    <!-- ВРЕМЯ -->
+    <div class="picker">
+        <div class="col">
+            <div class="label">Часы</div>
+            <div class="wheel" id="hours"></div>
+        </div>
+
+        <div class="col">
+            <div class="label">Мин</div>
+            <div class="wheel" id="minutes"></div>
+        </div>
+
+        <div class="col">
+            <div class="label">Сек</div>
+            <div class="wheel" id="seconds"></div>
+        </div>
+    </div>
+
+    <!-- МЕЛОДИЯ -->
+    <div class="melody-row">
+        <div class="melody-label">Мелодия</div>
+        <div class="wheel melody" id="melody"></div>
+    </div>
+
+    <button id="mainBtn">Старт</button>
+
+</div>
+
+<script src="main.js"></script>
+</body>
+</html>
