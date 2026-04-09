@@ -228,12 +228,14 @@ body {
 @media (max-width: 420px) {
     .container { padding: 20px 20px; }
     .title { font-size: 28px; }
-    .circle-timer { width: 180px; height: 180px; }
+    .clock { font-size: 28px; margin-top: -3px; }
+    .circle-timer { width: 200px; height: 200px; }
     .timer-progress { stroke-dasharray: 540; stroke-dashoffset: 540; }
     
-    #display { font-size: 26px; }
-    .wheel { width: 85px; height: 55px; }
-    .wheel div { height: 50px; line-height: 50px; }
-    .melody { width: 120px; }
-    .melody-row { max-width: 190px; }
+    #display { font-size: 30px; }
+    .dot-handle { width: 14px; height: 14px; }
+    .wheel { width: 90px; height: 60px; }
+    .wheel div { height: 60px; line-height: 60px; }
+    .melody { width: 130px; }
+    .melody-row { max-width: 200px; }
 }
