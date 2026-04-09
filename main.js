@@ -1,6 +1,8 @@
 
+const ITEM_HEIGHT = 55;
+
 let totalTime = 0;
-let initialTotalTime = 0; // Для расчета процентов
+let initialTotalTime = 0;
 let interval = null;
 let isRunning = false;
 let isFinished = false;
@@ -12,8 +14,6 @@ const dotHandle = document.getElementById("dotHandle");
 const fileInput = document.getElementById("fileInput");
 const addMelodyBtn = document.getElementById("addMelodyBtn");
 
-// Константа длины окружности для SVG (2 * PI * R)
-// R=105 для десктопа, в CSS есть медиазапрос, JS тоже должен адаптироваться
 let currentCircumference = 0;
 let displayedRadius = 105;
 
@@ -26,39 +26,26 @@ let melodies = [
     {name:"Bell", file:"melodies/bell.mp3"}
 ];
 
-// Функция адаптации параметров круга под размер экрана
 function adaptCircleParams() {
-    const svg = progressCircle.ownerSVGElement;
-    if (!svg) return;
-
     currentCircumference = progressCircle.getTotalLength();
-    const svgRect = svg.getBoundingClientRect();
-    const svgScale = svgRect.height / 220;
-    displayedRadius = progressCircle.r.baseVal.value * svgScale;
-
-    resetCircleVisuals(); // Сбросить вид при ресайзе
-}
-
-// Инициализация и сброс визуализации круга
-function resetCircleVisuals() {
-    progressCircle.style.transition = 'stroke-dashoffset 1s linear';
-    dotHandle.style.transition = 'transform 1s linear';
 
     progressCircle.style.strokeDasharray = currentCircumference;
     progressCircle.style.strokeDashoffset = currentCircumference;
 
-    dotHandle.style.top = '50%';
-    dotHandle.style.left = '50%';
-    dotHandle.style.transform = `translate(-50%, -${displayedRadius}px) rotate(0deg)`;
+    resetCircleVisuals();
+}
+
+function resetCircleVisuals() {
+    progressCircle.style.strokeDashoffset = currentCircumference;
+    dotHandle.style.transform = `translate(-50%, -105px) rotate(0deg)`;
 }
 
 window.addEventListener('resize', adaptCircleParams);
-adaptCircleParams(); // Вызвать при загрузке
-
+adaptCircleParams();
 
 function createWheel(id, max, isMelody=false) {
     const el = document.getElementById(id);
-    el.innerHTML = ''; // Очистка
+    el.innerHTML = '';
 
     if(isMelody){
         melodies.forEach(m=>{
@@ -77,45 +64,44 @@ function createWheel(id, max, isMelody=false) {
     el.addEventListener("scroll", ()=>{
         clearTimeout(el.t);
         el.t=setTimeout(()=>{
-            let i=Math.round(el.scrollTop/55); // Высота элемента 55px
-            el.scrollTo({top:i*55,behavior:"smooth"});
+            let i=Math.round(el.scrollTop/ITEM_HEIGHT);
+            el.scrollTo({top:i*ITEM_HEIGHT,behavior:"smooth"});
         },100);
+
         updateActive(el);
     });
+
+    el.scrollTop = 0;
     updateActive(el);
 }
 
-// Инициализация колес (параметры из вашего первого файла)
 createWheel("hours",23);
 createWheel("minutes",59);
 createWheel("seconds",59);
 createWheel("melody",0,true);
 
 function updateActive(el){
-    let i=Math.round(el.scrollTop/55);
+    let i=Math.round(el.scrollTop/ITEM_HEIGHT);
     [...el.children].forEach((c,index)=>{
         c.classList.toggle("active",index===i);
     });
 }
 
 function getValue(id){
-    return Math.round(document.getElementById(id).scrollTop/40);
+    return Math.round(document.getElementById(id).scrollTop/ITEM_HEIGHT);
 }
 
-// Добавление своей мелодии
 addMelodyBtn.onclick = () => fileInput.click();
 
 fileInput.onchange = (e) => {
     const file = e.target.files[0];
     if (file) {
         const url = URL.createObjectURL(file);
-        // Добавляем в список, сокращая имя
         melodies.push({name: file.name.substring(0, 8) + "..", file: url});
-        createWheel("melody", 0, true); // Перерисовываем колесо мелодий
+        createWheel("melody", 0, true);
         alert("Мелодия добавлена!");
     }
 };
-
 
 button.onclick=()=>{
     if(!isRunning && !isFinished){
@@ -135,7 +121,7 @@ function start(){
     let s=getValue("seconds");
 
     totalTime=h*3600+m*60+s;
-    initialTotalTime = totalTime; // Запоминаем старт
+    initialTotalTime = totalTime;
 
     if(totalTime<=0) return alert("Выбери время");
 
@@ -145,13 +131,10 @@ function start(){
     interval=setInterval(()=>{
         totalTime--;
         updateDisplay();
-        updateCircleProgress(); // Обновляем анимацию
+        updateCircleProgress();
 
         if(totalTime<=0){
             clearInterval(interval);
-            totalTime = 0;
-            updateDisplay();
-            updateCircleProgress(true);
             finish();
         }
     },1000);
@@ -161,35 +144,24 @@ function updateDisplay(){
     let h=Math.floor(totalTime/3600);
     let m=Math.floor((totalTime%3600)/60);
     let s=totalTime%60;
-    display.innerText = `${String(h).padStart(2,"0")}:${String(m).padStart(2,"0")}:${String(s).padStart(2,"0")}`;
+
+    display.innerText =
+        `${String(h).padStart(2,"0")}:` +
+        `${String(m).padStart(2,"0")}:` +
+        `${String(s).padStart(2,"0")}`;
 }
 
-// Самая важная часть: логика вращения точки и линии
 function updateCircleProgress(immediate = false) {
     if (initialTotalTime <= 0) return;
 
     let progressRatio = (initialTotalTime - totalTime) / initialTotalTime;
-    progressRatio = Math.min(Math.max(progressRatio, 0), 1);
 
     let offset = currentCircumference - (progressRatio * currentCircumference);
 
-    if (immediate) {
-        progressCircle.style.transition = 'none';
-        dotHandle.style.transition = 'none';
-    } else {
-        progressCircle.style.transition = 'stroke-dashoffset 1s linear';
-        dotHandle.style.transition = 'transform 1s linear';
-    }
-
     progressCircle.style.strokeDashoffset = offset;
-    dotHandle.style.transform = `translate(-50%, -${displayedRadius}px) rotate(${progressRatio * 360}deg)`;
 
-    if (immediate) {
-        requestAnimationFrame(() => {
-            progressCircle.style.transition = 'stroke-dashoffset 1s linear';
-            dotHandle.style.transition = 'transform 1s linear';
-        });
-    }
+    dotHandle.style.transform =
+        `translate(-50%, -105px) rotate(${progressRatio * 360}deg)`;
 }
 
 function finish(){
@@ -198,17 +170,14 @@ function finish(){
     button.innerText="Стоп";
 
     let melodyIndex=getValue("melody");
+
     if(melodies[melodyIndex]) {
         audio.src=melodies[melodyIndex].file;
         audio.loop=true;
-        audio.play().catch(e=>console.log("Ошибка автоплея:", e));
+        audio.play().catch(()=>{});
     }
 
-    updateCircleProgress(true);
-    progressCircle.style.strokeDashoffset = 0;
-    dotHandle.style.transform = `translate(-50%, -${displayedRadius}px) rotate(360deg)`;
-
-    alarmTimeout=setTimeout(reset,90000); // Автосброс через минуту
+    alarmTimeout=setTimeout(reset,90000);
 }
 
 function stopAlarm(){
@@ -218,23 +187,27 @@ function stopAlarm(){
 function reset(){
     clearInterval(interval);
     clearTimeout(alarmTimeout);
+
     audio.pause();
     audio.currentTime=0;
 
     isRunning=false;
     isFinished=false;
     totalTime=0;
-    initialTotalTime = 0;
+    initialTotalTime=0;
 
     display.innerText="00:00:00";
     button.innerText="Старт";
 
-    resetCircleVisuals(); // Сброс круга
+    resetCircleVisuals();
 
-    // Сброс колес (по вашему первому файлу)
     ["hours","minutes","seconds","melody"].forEach(id=>{
         let el=document.getElementById(id);
         el.scrollTop=0;
         updateActive(el);
     });
+}
+
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('sw.js');
 }

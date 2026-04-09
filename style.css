@@ -67,8 +67,6 @@ body {
 
 .timer-progress {
     stroke: #00c6ff; /* Синий прогресс */
-    stroke-dasharray: 660; /* 2 * PI * 105 (примерно) */
-    stroke-dashoffset: 660; /* Полностью скрыт в начале */
     stroke-linecap: round;
     transition: stroke-dashoffset 1s linear;
 }
