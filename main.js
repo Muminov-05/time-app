@@ -77,8 +77,8 @@ function createWheel(id, max, isMelody=false) {
     el.addEventListener("scroll", ()=>{
         clearTimeout(el.t);
         el.t=setTimeout(()=>{
-            let i=Math.round(el.scrollTop/40); // Высота элемента 40px
-            el.scrollTo({top:i*40,behavior:"smooth"});
+            let i=Math.round(el.scrollTop/55); // Высота элемента 55px
+            el.scrollTo({top:i*55,behavior:"smooth"});
         },100);
         updateActive(el);
     });
@@ -92,7 +92,7 @@ createWheel("seconds",59);
 createWheel("melody",0,true);
 
 function updateActive(el){
-    let i=Math.round(el.scrollTop/40);
+    let i=Math.round(el.scrollTop/55);
     [...el.children].forEach((c,index)=>{
         c.classList.toggle("active",index===i);
     });

@@ -17,7 +17,7 @@ body {
 .container {
     text-align: center;
     background: rgba(255,255,255,0.06);
-    padding: 30px;
+    padding: 15px 30px;
     border-radius: 40px;
     backdrop-filter: blur(12px);
     width: 100%;
@@ -28,8 +28,9 @@ body {
     display: flex;
     justify-content: center;
     gap: 10px;
-    font-size: 24px;
+    font-size: 32px;
     margin-top: 0;
+    margin-bottom: 15px;
 }
 
 .clock {
@@ -46,7 +47,7 @@ body {
     position: relative;
     width: 220px;
     height: 220px;
-    margin: 20px auto 30px;
+    margin: 15px auto 25px;
 }
 
 .circle-timer svg {
@@ -102,7 +103,7 @@ body {
     display: flex;
     justify-content: center;
     gap: 15px; /* Немного уменьшил gap для мобильных */
-    margin-bottom: 20px;
+    margin-bottom: 25px;
 }
 
 .col {
@@ -113,13 +114,14 @@ body {
 }
 
 .label {
-    font-size: 13px;
+    font-size: 16px;
     opacity: 0.8;
+    font-weight: 500;
 }
 
 .wheel {
-    width: 70px; /* Немного компактнее */
-    height: 40px; /* Ровно под один активный элемент */
+    width: 90px; /* Увеличено */
+    height: 55px; /* Увеличено */
     overflow-y: scroll;
     scroll-snap-type: y mandatory;
     text-align: center;
@@ -132,12 +134,12 @@ body {
 .wheel::-webkit-scrollbar { display: none; } /* Скрываем в Chrome/Safari */
 
 .wheel div {
-    height: 40px;
-    line-height: 40px;
+    height: 55px;
+    line-height: 55px;
     scroll-snap-align: center;
     opacity: 0.3;
     transition: 0.3s;
-    font-size: 18px;
+    font-size: 20px;
 }
 
 .wheel div.active {
@@ -147,40 +149,67 @@ body {
     color: #00c6ff;
 }
 
-.melody-row {
-    margin-top: 10px;
+.melody-section {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: center;
-    gap: 8px;
+    gap: 10px;
+    margin-bottom: 25px;
 }
 
 .melody-label {
-    font-size: 14px;
+    font-size: 16px;
     opacity: 0.8;
+    font-weight: 500;
+}
+
+/* Контейнер с полем мелодии и кнопкой вместе */
+.melody-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    width: 100%;
+    max-width: 180px;
+    background: rgba(255,255,255,0.05);
+    border: 2px solid rgba(255,255,255,0.2);
+    border-radius: 12px;
+    padding: 0;
 }
 
 .melody {
-    width: 120px;
+    width: 150px;
+    height: 55px;
+    border: none !important;
+    background: transparent !important;
+    flex: 1;
 }
 
-/* Кнопка добавления мелодии в стиле Redmi, но вписанная в старый ряд */
+/* Кнопка добавления мелодии как значок пароля */
 .add-melody-inline {
     background: none;
-    border: 2px solid rgba(255,255,255,0.3);
+    border: none;
+    border-left: 1px solid rgba(255,255,255,0.2);
     color: white;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    font-size: 20px;
-    line-height: 36px;
+    width: 45px;
+    height: 55px;
+    border-radius: 0 12px 12px 0;
+    font-size: 22px;
+    line-height: 55px;
     padding: 0;
     margin: 0;
+    cursor: pointer;
+    transition: 0.2s;
 }
+
+.add-melody-inline:hover {
+    background: rgba(0,198,255,0.1);
+}
+
 
 /* --- ОРИГИНАЛЬНАЯ КНОПКА (ВОЗВРАЩЕНА) --- */
 #mainBtn {
-    margin-top: 25px;
+    margin-top: 15px;
     padding: 15px 50px;
     border-radius: 20px;
     border: none;
@@ -197,12 +226,14 @@ body {
 
 /* --- МОБИЛЬНЫЙ ВИД --- */
 @media (max-width: 400px) {
-    .container { padding: 20px; }
+    .container { padding: 10px 20px; }
+    .title { font-size: 28px; }
     .circle-timer { width: 180px; height: 180px; }
-    .timer-progress { stroke-dasharray: 540; stroke-dashoffset: 540; } /* Коррекция под меньший радиус */
-    /* Коррекция transform-origin точки для меньшего круга в JS */
+    .timer-progress { stroke-dasharray: 540; stroke-dashoffset: 540; }
     
     #display { font-size: 26px; }
-    .wheel { width: 60px; }
-    .melody { width: 100px; }
+    .wheel { width: 80px; height: 50px; }
+    .wheel div { height: 50px; line-height: 50px; }
+    .melody { width: 120px; }
+    .melody-row { max-width: 160px; }
 }
