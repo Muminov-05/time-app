@@ -17,7 +17,7 @@ body {
 .container {
     text-align: center;
     background: rgba(255,255,255,0.06);
-    padding: 15px 30px;
+    padding: 25px 30px;
     border-radius: 40px;
     backdrop-filter: blur(12px);
     width: 100%;
@@ -226,14 +226,14 @@ body {
 
 /* --- МОБИЛЬНЫЙ ВИД --- */
 @media (max-width: 400px) {
-    .container { padding: 10px 20px; }
+    .container { padding: 20px 20px; }
     .title { font-size: 28px; }
     .circle-timer { width: 180px; height: 180px; }
     .timer-progress { stroke-dasharray: 540; stroke-dashoffset: 540; }
     
     #display { font-size: 26px; }
-    .wheel { width: 80px; height: 50px; }
+    .wheel { width: 85px; height: 55px; }
     .wheel div { height: 50px; line-height: 50px; }
     .melody { width: 120px; }
-    .melody-row { max-width: 160px; }
+    .melody-row { max-width: 190px; }
 }
