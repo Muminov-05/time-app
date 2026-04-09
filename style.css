@@ -1,28 +1,35 @@
 
+
+/* --- БАЗОВЫЕ СТИЛИ ИЗ ВАШЕГО ПЕРВОГО ФАЙЛА --- */
 body {
     margin: 0;
-    font-family: Arial;
+    font-family: Arial, sans-serif;
     background: linear-gradient(135deg,#2a4a7b,#1e3c72);
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    min-height: 100vh;
     color: white;
+    padding: 10px;
+    box-sizing: border-box;
 }
 
 .container {
     text-align: center;
     background: rgba(255,255,255,0.06);
     padding: 30px;
-    border-radius: 20px;
+    border-radius: 40px;
     backdrop-filter: blur(12px);
+    width: 100%;
+    max-width: 400px; /* Ограничение ширины для десктопа */
 }
 
-/* заголовок */
 .title {
     display: flex;
     justify-content: center;
     gap: 10px;
+    font-size: 24px;
+    margin-top: 0;
 }
 
 .clock {
@@ -34,32 +41,68 @@ body {
     to {transform: rotate(360deg);}
 }
 
-/* круг */
-.circle {
+/* --- НОВЫЙ ДИЗАЙН КРУГА (REDMI NOTE 12 STYLE) --- */
+.circle-timer {
     position: relative;
     width: 220px;
     height: 220px;
-    margin: 20px auto;
+    margin: 20px auto 30px;
 }
 
-svg { transform: rotate(-90deg); }
-circle { fill: none; stroke-width: 8; }
+.circle-timer svg {
+    transform: rotate(-90deg); /* Начинаем сверху */
+    width: 100%;
+    height: 100%;
+}
 
-.bg { stroke: rgba(255,255,255,0.2); }
-.progress { stroke: #00c6ff; stroke-dasharray: 628; stroke-dashoffset: 628; }
+.circle-timer circle {
+    fill: none;
+    stroke-width: 3; /* Очень тонкие линии */
+}
+
+.timer-bg {
+    stroke: rgba(255, 255, 255, 0.15); /* Едва заметная подложка */
+}
+
+.timer-progress {
+    stroke: #00c6ff; /* Синий прогресс */
+    stroke-dasharray: 660; /* 2 * PI * 105 (примерно) */
+    stroke-dashoffset: 660; /* Полностью скрыт в начале */
+    stroke-linecap: round;
+    transition: stroke-dashoffset 1s linear;
+}
+
+/* Точка-бегунок */
+.dot-handle {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 12px;
+    height: 12px;
+    background: #00c6ff;
+    border-radius: 50%;
+    box-shadow: 0 0 10px #00c6ff, 0 0 20px #00c6ff;
+    transform-origin: center center;
+    transform: translate(-50%, -105px) rotate(0deg);
+    transition: transform 1s linear;
+    z-index: 2;
+}
 
 #display {
     position: absolute;
     top: 50%; left: 50%;
     transform: translate(-50%, -50%);
-    font-size: 28px;
+    font-size: 32px;
+    font-weight: bold;
+    font-family: 'Courier New', Courier, monospace; /* Более "цифровой" вид */
 }
 
-/* время */
+/* --- ОРИГИНАЛЬНЫЕ СТИЛИ ПОЛЕЙ (ВОЗВРАЩЕНЫ) --- */
 .picker {
     display: flex;
     justify-content: center;
-    gap: 40px;
+    gap: 15px; /* Немного уменьшил gap для мобильных */
+    margin-bottom: 20px;
 }
 
 .col {
@@ -74,145 +117,92 @@ circle { fill: none; stroke-width: 8; }
     opacity: 0.8;
 }
 
-/* колесо */
 .wheel {
-    width: 70px;
-    height: 50px;
+    width: 70px; /* Немного компактнее */
+    height: 40px; /* Ровно под один активный элемент */
     overflow-y: scroll;
     scroll-snap-type: y mandatory;
     text-align: center;
-
     border: 2px solid rgba(255,255,255,0.2);
     border-radius: 12px;
     background: rgba(255,255,255,0.05);
-
-    transition: 0.3s;
+    scrollbar-width: none; /* Скрываем скроллбар в Firefox */
 }
 
-.wheel:hover {
-    border-color: #00c6ff;
-}
-
-.wheel::-webkit-scrollbar {
-    display: none;
-}
+.wheel::-webkit-scrollbar { display: none; } /* Скрываем в Chrome/Safari */
 
 .wheel div {
     height: 40px;
     line-height: 40px;
     scroll-snap-align: center;
-    opacity: 0.4;
+    opacity: 0.3;
     transition: 0.3s;
+    font-size: 18px;
 }
 
 .wheel div.active {
     opacity: 1;
-    transform: scale(1.25);
+    transform: scale(1.1);
     font-weight: bold;
     color: #00c6ff;
 }
 
-/* мелодия */
 .melody-row {
-    margin-top: 20px;
+    margin-top: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 20px;
+    gap: 8px;
 }
 
 .melody-label {
-    font-size: 16px;
-    min-width: 80px;
-    text-align: right;
+    font-size: 14px;
+    opacity: 0.8;
 }
 
-/* кнопка */
-button {
-    margin-top: 20px;
-    padding: 10px 25px;
+.melody {
+    width: 120px;
+}
+
+/* Кнопка добавления мелодии в стиле Redmi, но вписанная в старый ряд */
+.add-melody-inline {
+    background: none;
+    border: 2px solid rgba(255,255,255,0.3);
+    color: white;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    font-size: 20px;
+    line-height: 36px;
+    padding: 0;
+    margin: 0;
+}
+
+/* --- ОРИГИНАЛЬНАЯ КНОПКА (ВОЗВРАЩЕНА) --- */
+#mainBtn {
+    margin-top: 25px;
+    padding: 15px 50px;
     border-radius: 20px;
     border: none;
     background: #00c6ff;
     color: white;
     cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    width: 100%; /* На весь контейнер */
     transition: 0.3s;
 }
 
-button:hover {
-    transform: scale(1.05);
-}
+#mainBtn:hover { transform: scale(1.02); }
 
-
-/* 📱 МОБИЛЬНАЯ ВЕРСИЯ */
-@media (max-width: 480px) {
-
-    body {
-        padding: 10px;
-        align-items: flex-start;
-    }
-
-    .container {
-        width: 100%;
-        padding: 20px;
-        border-radius: 0;
-        min-height: 100vh;
-    }
-
-    /* заголовок */
-    .title {
-        font-size: 22px;
-    }
-
-    /* круг */
-    .circle {
-        width: 180px;
-        height: 180px;
-    }
-
-    svg {
-        width: 180px;
-        height: 180px;
-    }
-
-    #display {
-        font-size: 24px;
-    }
-
-    /* время */
-    .picker {
-        gap: 20px;
-    }
-
-    .wheel {
-        width: 65px;
-        height: 50px;
-        font-size: 18px;
-    }
-
-    .wheel div {
-        font-size: 20px;
-    }
-
-    /* мелодия */
-    .melody-row {
-        flex-direction: column;
-        gap: 10px;
-    }
-
-    .melody-label {
-        text-align: center;
-    }
-
-    .melody {
-        width: 150px;
-    }
-
-    /* кнопка */
-    button {
-        width: 100%;
-        padding: 14px;
-        font-size: 18px;
-        border-radius: 25px;
-    }
+/* --- МОБИЛЬНЫЙ ВИД --- */
+@media (max-width: 400px) {
+    .container { padding: 20px; }
+    .circle-timer { width: 180px; height: 180px; }
+    .timer-progress { stroke-dasharray: 540; stroke-dashoffset: 540; } /* Коррекция под меньший радиус */
+    /* Коррекция transform-origin точки для меньшего круга в JS */
+    
+    #display { font-size: 26px; }
+    .wheel { width: 60px; }
+    .melody { width: 100px; }
 }
