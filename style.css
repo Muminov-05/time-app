@@ -225,7 +225,7 @@ body {
 #mainBtn:hover { transform: scale(1.02); }
 
 /* --- МОБИЛЬНЫЙ ВИД --- */
-@media (max-width: 400px) {
+@media (max-width: 420px) {
     .container { padding: 20px 20px; }
     .title { font-size: 28px; }
     .circle-timer { width: 180px; height: 180px; }

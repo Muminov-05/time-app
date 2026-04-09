@@ -208,7 +208,7 @@ function finish(){
     progressCircle.style.strokeDashoffset = 0;
     dotHandle.style.transform = `translate(-50%, -${displayedRadius}px) rotate(360deg)`;
 
-    alarmTimeout=setTimeout(reset,60000); // Автосброс через минуту
+    alarmTimeout=setTimeout(reset,90000); // Автосброс через минуту
 }
 
 function stopAlarm(){
